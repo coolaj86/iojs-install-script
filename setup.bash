@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# curl -s https://ldsconnect.org/setup.bash | bash
+# curl -fsSL https://ldsconnect.org/setup.bash | bash
 # wget -nv https://ldsconnect.org/setup.bash -O - | bash
 
 BASE_URL="https://ldsconnect.org"
@@ -154,5 +154,22 @@ if [ -z "$(which jade | grep jade)" ]; then
 else
   echo "jade already installed"
 fi
+
+# less
+if [ -z "$(which lessc | grep lessc)" ]; then
+  echo "installing lessc..."
+  npm install --silent less -g > /dev/null
+else
+  echo "lessc already installed"
+fi
+
+# uglifyjs
+if [ -z "$(which uglifyjs | grep uglifyjs)" ]; then
+  echo "installing uglifyjs..."
+  npm install --silent uglify-js -g > /dev/null
+else
+  echo "uglifyjs already installed"
+fi
+
 
 echo ""
