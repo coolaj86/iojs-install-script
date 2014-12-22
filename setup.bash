@@ -157,18 +157,18 @@ fi
 
 # less
 if [ -z "$(which lessc | grep lessc)" ]; then
-  echo "installing lessc..."
+  echo "installing lessc (less)..."
   npm install --silent less -g > /dev/null
 else
-  echo "lessc already installed"
+  echo "lessc (less) already installed"
 fi
 
 # uglifyjs
 if [ -z "$(which uglifyjs | grep uglifyjs)" ]; then
-  echo "installing uglifyjs..."
+  echo "installing uglifyjs (uglify-js)..."
   npm install --silent uglify-js -g > /dev/null
 else
-  echo "uglifyjs already installed"
+  echo "uglifyjs (uglify-js) already installed"
 fi
 
 
