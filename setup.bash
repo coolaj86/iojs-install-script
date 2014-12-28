@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# curl -fsSL https://ldsconnect.org/setup.bash | bash
-# wget -nv https://ldsconnect.org/setup.bash -O - | bash
+# curl -fsSL https://example.com/setup.bash | bash
+# wget -nv https://example.com/setup.bash -O - | bash
 
 BASE_URL="https://raw.githubusercontent.com/coolaj86/node-install-script/master"
 NODE_VER="v0.11.14"
