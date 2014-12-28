@@ -62,6 +62,13 @@ else
   echo "fail2ban already installed"
 fi
 
+if [ -z "$(which pkg-config | grep pkg-config)" ]; then
+  echo "installing pkg-config..."
+  brew install pkg-config
+else
+  echo "fail2ban already installed"
+fi
+
 # node
 CUR_NODE_VER=$(node -v 2>/dev/null)
 if [ -n "$(which node | grep node)" ] && [ "${NODE_VER}" == "$(node -v 2>/dev/null)" ]; then
