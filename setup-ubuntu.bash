@@ -19,7 +19,7 @@ fi
 # git, wget, curl, build-essential
 if [ -z "$(which pkg-config | grep pkg-config)" ] || -z "$(which git | grep git)" ] || [ -z "$(which wget | grep wget)" ] || [ -z "$(which curl | grep curl)" ] || [ -z "$(which gcc | grep gcc)" ] || [ -z "$(which rsync | grep rsync)" ]
 then
-  echo "installing git, wget, curl, build-essential, rsync..."
+  echo "installing git, wget, curl, build-essential, rsync, pkg-config..."
   sudo bash -c "apt-get install -qq -y git wget curl build-essential rsync pkg-config < /dev/null" > /dev/null 2>/dev/null
 fi
 
