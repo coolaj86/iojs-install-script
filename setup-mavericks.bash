@@ -66,7 +66,7 @@ if [ -z "$(which pkg-config | grep pkg-config)" ]; then
   echo "installing pkg-config..."
   brew install pkg-config
 else
-  echo "fail2ban already installed"
+  echo "pkg-config already installed"
 fi
 
 # node
