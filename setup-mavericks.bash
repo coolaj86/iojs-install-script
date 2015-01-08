@@ -89,5 +89,5 @@ if [ -n "${NODE_VER}" ]; then
   echo "installing node ${NODE_VER}..."
   curl -fsSL "http://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}.pkg" -o "/tmp/node-${NODE_VER}.pkg"
   sudo /usr/sbin/installer -pkg "/tmp/node-${NODE_VER}.pkg" -target /
-  sudo chown -R $(whoami) /usr/local
+  sudo chown -R $(whoami) /usr/local 2>/dev/null
 fi
