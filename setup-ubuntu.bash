@@ -24,17 +24,32 @@ then
 fi
 
 # node
-CUR_NODE_VER=$(node -v 2>/dev/null)
-if [ -n "$(which node | grep node)" ] && [ "${NODE_VER}" == "$(node -v 2>/dev/null)" ]; then
-#if [ "${NODE_VER}" == "${CUR_NODE_VER}" ]; then
-  echo node ${NODE_VER} already installed
-else
+if [ -n "$(which node | grep node 2>/dev/null)" ]; then
+  if [ "${NODE_VER}" == "$(node -v 2>/dev/null)" ]; then
+    echo node ${NODE_VER} already installed
+  else
+    echo ""
+    echo "HEY, LISTEN:"
+    echo "node is already installed as $(node -v | grep v)"
+    echo ""
+    echo "to reinstall please first run: rm $(which node)"
+    echo ""
+    NODE_VER=""
+  fi
+fi
+
+if [ -n "${NODE_VER}" ]; then
+  if [ -n "$(arch | grep 64)" ]; then
+    ARCH="x64"
+  else
+    ARCH="x86"
+  fi
   echo "installing node ${NODE_VER}..."
-  curl -fsSL "http://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}-linux-x64.tar.gz" \
-    -o "/tmp/node-${NODE_VER}-linux-x64.tar.gz"
+  curl -fsSL "http://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}-linux-${ARCH}.tar.gz" \
+    -o "/tmp/node-${NODE_VER}-linux-${ARCH}.tar.gz"
   pushd /tmp
-  tar xf /tmp/node-${NODE_VER}-linux-x64.tar.gz
+  tar xf /tmp/node-${NODE_VER}-linux-${ARCH}.tar.gz
   rm node-${NODE_VER}-linux-x64/{LICENSE,ChangeLog,README.md}
-  sudo rsync -a /tmp/node-${NODE_VER}-linux-x64/ /usr/local/
+  sudo rsync -a "/tmp/node-${NODE_VER}-linux-${ARCH}/" /usr/local/
   sudo chown -R $(whoami) /usr/local
 fi
