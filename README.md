@@ -23,6 +23,9 @@ This is what gets installed:
 * xcode / brew / build-essential / gcc
 * node
 * jshint
+
+These are **not installed**, but you may wish to use them if you're doing front-end work as well
+
 * bower
 * uglifyjs
 * yo
