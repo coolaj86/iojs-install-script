@@ -4,7 +4,12 @@
 # wget -nv https://example.com/setup.bash -O - | bash
 
 BASE_URL="https://raw.githubusercontent.com/coolaj86/node-install-script/master"
-NODE_VER="v0.11.14"
+if [ -f "/tmp/NODE_VER" ]; then
+  NODE_VER=$(cat /tmp/NODE_VER | grep v)
+fi
+if [ -z "$NODE_VER" ]; then
+  NODE_VER="v0.11.14"
+fi
 OS="unsupported"
 ARCH=""
 
