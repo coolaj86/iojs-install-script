@@ -24,6 +24,14 @@ This is what gets installed:
 * node
 * jshint
 
+Screencast
+==========
+
+[How to Setup a VPS for Node.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) [(3:05) installing node](https://www.youtube.com/watch?v=ypjzi1axH2A#t=185)
+
+Front-End Extras
+================
+
 These are **not installed**, but you may wish to use them if you're doing front-end work as well
 
 * bower
