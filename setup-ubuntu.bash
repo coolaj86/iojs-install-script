@@ -25,6 +25,8 @@ fi
 
 # node
 if [ -n "$(which node | grep node 2>/dev/null)" ]; then
+  NODE_VER=""
+
   if [ "${NODE_VER}" == "$(node -v 2>/dev/null)" ]; then
     echo node ${NODE_VER} already installed
   else
@@ -34,7 +36,6 @@ if [ -n "$(which node | grep node 2>/dev/null)" ]; then
     echo ""
     echo "to reinstall please first run: rm $(which node)"
     echo ""
-    NODE_VER=""
   fi
 fi
 
