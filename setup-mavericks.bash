@@ -70,10 +70,22 @@ else
 fi
 
 # node
-CUR_NODE_VER=$(node -v 2>/dev/null)
-if [ -n "$(which node | grep node)" ] && [ "${NODE_VER}" == "$(node -v 2>/dev/null)" ]; then
-  echo node ${NODE_VER} already installed
-else
+if [ -n "$(which node | grep node 2>/dev/null)" ]; then
+  NODE_VER=""
+  
+  if [ "${NODE_VER}" == "$(node -v 2>/dev/null)" ]; then
+    echo node ${NODE_VER} already installed
+  else
+    echo ""
+    echo "HEY, LISTEN:"
+    echo "node is already installed as $(node -v | grep v)"
+    echo ""
+    echo "to reinstall please first run: rm $(which node)"
+    echo ""
+  fi
+fi
+
+if [ -n "${NODE_VER}" ]; then
   echo "installing node ${NODE_VER}..."
   curl -fsSL "http://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}.pkg" -o "/tmp/node-${NODE_VER}.pkg"
   sudo /usr/sbin/installer -pkg "/tmp/node-${NODE_VER}.pkg" -target /
