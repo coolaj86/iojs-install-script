@@ -131,45 +131,4 @@ else
   echo "jshint already installed"
 fi
 
-# yo
-if [ -z "$(which yo | grep yo)" ]; then
-  echo "installing yo (yeoman)..."
-  npm install --silent yo generator-angular -g > /dev/null
-else
-  echo "yo (yeoman) already installed"
-fi
-
-# bower
-if [ -z "$(which bower | grep bower)" ]; then
-  echo "installing bower..."
-  npm install --silent bower -g > /dev/null
-else
-  echo "bower already installed"
-fi
-
-# jade
-if [ -z "$(which jade | grep jade)" ]; then
-  echo "installing jade..."
-  npm install --silent jade -g > /dev/null
-else
-  echo "jade already installed"
-fi
-
-# less
-if [ -z "$(which lessc | grep lessc)" ]; then
-  echo "installing lessc (less)..."
-  npm install --silent less -g > /dev/null
-else
-  echo "lessc (less) already installed"
-fi
-
-# uglifyjs
-if [ -z "$(which uglifyjs | grep uglifyjs)" ]; then
-  echo "installing uglifyjs (uglify-js)..."
-  npm install --silent uglify-js -g > /dev/null
-else
-  echo "uglifyjs (uglify-js) already installed"
-fi
-
-
 echo ""
