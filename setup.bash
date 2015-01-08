@@ -4,6 +4,16 @@
 # wget -nv https://example.com/setup.bash -O - | bash
 
 BASE_URL="https://raw.githubusercontent.com/coolaj86/node-install-script/master"
+
+if [ -n "$(which node 2>/dev/null || false)" ]; then
+  echo ""
+  echo "HEY, LISTEN:"
+  echo "node is already install as $(node -v | grep v)"
+  echo ""
+  echo "to reinstall please first run: rm $(which node)"
+  echo ""
+fi
+
 if [ -f "/tmp/NODE_VER" ]; then
   NODE_VER=$(cat /tmp/NODE_VER | grep v)
 fi
