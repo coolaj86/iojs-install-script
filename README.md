@@ -6,10 +6,16 @@ A script to install basic development tools for node (git, node, gcc, etc)
 Works for any recent version of Ubuntu or OS X.
 
 ```bash
+# Specify the version of node to install
+echo "v0.11.14" > /tmp/NODE_VER
+
+# And install away!
 curl -fsSL bit.ly/easy-install-node | bash
+```
 
+**For older versions of Ubuntu**:
 
-# For older version of ubuntu
+```bash
 wget -nv bit.ly/easy-install-node -O - | bash
 ```
 
