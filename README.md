@@ -27,7 +27,7 @@ This is what gets installed:
 Screencast
 ==========
 
-[How to Setup a VPS for Node.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) - [(3:05 installing node](https://www.youtube.com/watch?v=ypjzi1axH2A#t=185))
+[How to Setup a VPS for Node.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) - [(3:06 installing node](https://www.youtube.com/watch?v=ypjzi1axH2A#t=186))
 
 Front-End Extras
 ================
