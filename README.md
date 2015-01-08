@@ -20,7 +20,7 @@ This is what gets installed:
 * curl
 * wget
 * git
-* xcode / brew / build-essential / gcc
+* xcode / brew / build-essential / pkg-config / gcc
 * node
 * jshint
 
