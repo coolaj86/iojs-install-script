@@ -50,7 +50,7 @@ if [ -n "${IOJS_VER}" ]; then
     -o "/tmp/iojs-${IOJS_VER}-linux-${ARCH}.tar.gz"
   pushd /tmp
   tar xf /tmp/iojs-${IOJS_VER}-linux-${ARCH}.tar.gz
-  rm iojs-${IOJS_VER}-linux-x64/{LICENSE,ChangeLog,README.md}
+  rm iojs-${IOJS_VER}-linux-x64/{LICENSE,CHANGELOG.md,README.md}
   sudo rsync -a "/tmp/iojs-${IOJS_VER}-linux-${ARCH}/" /usr/local/
   sudo chown -R $(whoami) /usr/local
 fi
