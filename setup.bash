@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Installs iojs + dependencies for both Ubuntu and OS X
+
+#
+# See https://github.com/coolaj86/iojs-install-script
+#
+
 # curl -fsSL https://example.com/setup.bash | bash
 # wget -nv https://example.com/setup.bash -O - | bash
 
