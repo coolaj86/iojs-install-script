@@ -10,24 +10,19 @@
 # wget -nv https://example.com/setup.bash -O - | bash
 
 BASE_URL="https://raw.githubusercontent.com/coolaj86/iojs-install-script/master"
-
-if [ -n "$(which iojs 2>/dev/null || false)" ]; then
-  echo ""
-  echo "HEY, LISTEN:"
-  echo "io.js is already install as iojs $(iojs -v | grep v)"
-  echo ""
-  echo "to reinstall please first run: rm $(which iojs)"
-  echo ""
-fi
-
-if [ -f "/tmp/IOJS_VER" ]; then
-  IOJS_VER=$(cat /tmp/IOJS_VER | grep v)
-fi
-if [ -z "$IOJS_VER" ]; then
-  IOJS_VER="v1.0.1"
-fi
+NO_FAIL2BAN=""
 OS="unsupported"
 ARCH=""
+IOJS_VER=""
+SETUP_FILE=""
+
+clear
+
+
+
+#########################
+# Which OS and version? #
+#########################
 
 if [ "$(uname | grep -i 'Darwin')" ]; then
   OSX_VER="$(sw_vers | grep ProductVersion | cut -d':' -f2 | cut -f2)"
@@ -81,9 +76,7 @@ if [ "$(uname | grep -i 'Darwin')" ]; then
   else
     ARCH="32"
   fi
-
 elif [ "$(uname | grep -i 'Linux')" ]; then
-
   if [ ! -f "/etc/issue" ]; then
     echo "unsupported linux os"
     exit 1
@@ -100,40 +93,37 @@ elif [ "$(uname | grep -i 'Linux')" ]; then
   elif [ "$(cat /etc/issue | grep -i 'Fedora')" ]; then
     OS='fedora'
   fi
-
 else
-
   echo "unsupported unknown os (non-mac, non-linux)"
   exit 1
-
 fi
 
 case "${OS}" in
   fedora)
-    echo "sudo yum"
-    echo "wget --quiet ${BASE_URL}/setup-fedora.bash -O /tmp/install-iojs.bash || echo 'error downloading os setup script'"
+    echo "FEDORA not yet supported (feel free to pull request)"
+    exit 1
     ;;
   ubuntu)
-    wget --quiet "${BASE_URL}/setup-ubuntu.bash" -O /tmp/install-iojs.bash || echo 'error downloading os setup script'
+    SETUP_FILE="ubuntu"
     ;;
   yosemite)
     # mavericks
-    curl --silent "${BASE_URL}/setup-mavericks.bash" -o /tmp/install-iojs.bash || echo 'error downloading os setup script'
+    SETUP_FILE="mavericks"
     ;;
   mavericks)
-    curl --silent "${BASE_URL}/setup-mavericks.bash" -o /tmp/install-iojs.bash || echo 'error downloading os setup script'
+    SETUP_FILE="mavericks"
     ;;
   mountain)
-    echo "wget cltools"
-    echo "curl --silent ${BASE_URL}/setup-mountain.bash -o /tmp/install-iojs.bash || echo 'error downloading os setup script'"
+    echo "Mountain Lion not yet supported (feel free to pull request)"
+    exit 1
     ;;
   lion)
-    echo "wget cltools"
-    echo "curl --silent ${BASE_URL}/setup-lion.bash -o /tmp/install-iojs.bash || echo 'error downloading os setup script'"
+    echo "Lion not yet supported (feel free to pull request)"
+    exit 1
     ;;
   snow)
-    echo "wget gcc-0.6.pkg"
-    echo "curl --silent ${BASE_URL}/setup-snow.bash -o /tmp/install-iojs.bash || echo 'error downloading os setup script'"
+    echo "Snow Leopard not yet supported (feel free to pull request)"
+    exit 1
     ;;
   *)
     echo "unsupported unknown os ${OS}"
@@ -141,8 +131,132 @@ case "${OS}" in
     ;;
 esac
 
+
+
+
+#######################
+# Download installers #
+#######################
+
 echo "${OS}" "${ARCH}"
-bash /tmp/install-iojs.bash "${IOJS_VER}"
+
+if [ -n "$(which curl)" ]; then
+  curl --silent "${BASE_URL}/setup-deps-${SETUP_FILE}.bash" \
+    -o /tmp/install-iojs-deps.bash || echo 'error downloading os setup script'
+  curl --silent "${BASE_URL}/setup-iojs-${SETUP_FILE}.bash" \
+    -o /tmp/install-iojs.bash || echo 'error downloading os setup script'
+elif [ -n "$(which wget)" ]; then
+  wget --quiet "${BASE_URL}/setup-deps-${SETUP_FILE}.bash" \
+    -O /tmp/install-iojs-deps.bash || echo 'error downloading os setup script'
+  wget --quiet "${BASE_URL}/setup-iojs-${SETUP_FILE}.bash" \
+    -O /tmp/install-iojs.bash || echo 'error downloading os setup script'
+else
+  echo "Found neither 'curl' nor 'wget'. Can't Continue."
+  exit 1
+fi
+
+
+
+
+################
+# DEPENDENCIES #
+################
+
+if [ -z "$(which fail2ban-server | grep fail2ban)" ]; then
+  echo ""
+  echo "Your server didn't come with fail2ban preinstalled!!!"
+  echo "Among other things, fail2ban secures ssh so that your server isn't reaped by botnets."
+  echo ""
+  echo "Since you're obviosly connecting this computer to a network, you should install fail2ban before continuing"
+  echo ""
+  echo "Install fail2ban? [Y/n]"
+  echo "(if unsure, just hit [enter])"
+  read INSTALL_FAIL2BAN
+
+  if [ "n" == "${INSTALL_FAIL2BAN}" ] || [ "no" == "${INSTALL_FAIL2BAN}" ] || [ "N" == "${INSTALL_FAIL2BAN}" ] || [ "NO" == "${INSTALL_FAIL2BAN}" ]; then
+    echo ""
+    echo "I don't think you understand: This is important."
+    echo ""
+    echo "Your server will be under constant attack by botnets via ssh."
+    echo "It only takes a few extra seconds to install and the defaults are adequate for protecting you."
+    echo ""
+    echo "Change your mind?"
+    echo "Ready to install fail2ban? [Y/n]"
+    read INSTALL_FAIL2BAN
+    if [ "n" == "${INSTALL_FAIL2BAN}" ] || [ "no" == "${INSTALL_FAIL2BAN}" ] || [ "N" == "${INSTALL_FAIL2BAN}" ] || [ "NO" == "${INSTALL_FAIL2BAN}" ]; then
+      clear
+      echo "you make me sad :-("
+      sleep 0.5
+      echo "but whatever, it's your funeral..."
+      sleep 1
+      NO_FAIL2BAN="nope"
+    else
+      echo "Phew, dodged the bullet on that one... Will install fail2ban.. :-)"
+    fi
+  fi
+fi
+
+bash /tmp/install-iojs-deps.bash "${NO_FAIL2BAN}"
+
+#########################
+# Which io.js VERSION ? #
+#########################
+
+if [ -f "/tmp/IOJS_VER" ]; then
+  IOJS_VER=$(cat /tmp/IOJS_VER | grep v)
+fi
+
+if [ -z "$IOJS_VER" ]; then
+  IOJS_VER="v1.0.1"
+fi
+
+if [ -n "$(which iojs 2>/dev/null || false)" ]; then
+  echo ""
+  echo "HEY, LISTEN:"
+  echo "io.js is already install as iojs $(iojs -v | grep v)"
+  echo ""
+  echo "to reinstall please first run:"
+  echo "sudo mv '$(which iojs)' '$(which iojs).$(iojs -v)'"
+  echo ""
+fi
+
+#
+# iojs  
+#
+if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
+# iojs of some version is already installed
+  if [ "${IOJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
+    echo iojs ${IOJS_VER} already installed
+  else
+    echo "HEY, LISTEN:"
+    echo ""
+    echo "io.js is already installed as iojs $(iojs -v | grep v)"
+    echo ""
+    echo "to reinstall please first run: rm $(which iojs)"
+    echo ""
+  fi
+  IOJS_VER=""
+elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
+# node of some version is already installed
+  echo ""
+  echo "################################################################################"
+  echo ""
+  echo "HEY, LISTEN!"
+  echo ""
+  echo "You have node.js installed."
+  echo "Backing up $(which node) as $(which node).$(node -v)"
+  echo "(copy it back after the install if to maintain node.js and io.js separately)"
+  echo ""
+  echo sudo mv "$(which node)" "$(which node).$(node -v)"
+  sleep 3
+  sudo mv "$(which node)" "$(which node).$(node -v)"
+  echo "################################################################################"
+  echo ""
+fi
+
+if [ -n "${IOJS_VER}" ]; then
+  bash /tmp/install-iojs.bash "${IOJS_VER}"
+fi
 
 # jshint
 if [ -z "$(which jshint | grep jshint)" ]; then
