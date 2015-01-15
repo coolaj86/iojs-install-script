@@ -20,7 +20,6 @@ wget -nv bit.ly/install-iojs -O - | bash
 
 This is what gets installed:
 
-* fail2ban (not necessary for development, but should be on every server)
 * rsync
 * curl
 * wget
@@ -28,6 +27,8 @@ This is what gets installed:
 * xcode / brew / build-essential / pkg-config / gcc
 * iojs (including npm and node symlink)
 * jshint
+
+If `fail2ban` is not already securing ssh, you will be asked to install it.
 
 Screencast
 ==========
