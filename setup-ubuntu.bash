@@ -26,11 +26,15 @@ fi
 # iojs
 if [ -n "$(which node | grep node 2>/dev/null)" ]; then
   if [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
-    echo "You have node.js installed. Backing up $(which node) as $(which node).joyent"
+    clear
+    echo "HEY, LISTEN!"
+    echo ""
+    echo "You have node.js installed. Backing up $(which node) as $(which node).$(node -v)"
     echo "(you can move it back after the install if you want separate node.js and io.js installations)"
     echo ""
-    echo sudo mv "$(which node)" "$(which node).joyent"
-    sudo mv "$(which node)" "$(which node).joyent"
+    sleep 3
+    echo sudo mv "$(which node)" "$(which node).$(node -v)"
+    sudo mv "$(which node)" "$(which node).$(node -v)"
   fi
   
   if [ "${IOJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
