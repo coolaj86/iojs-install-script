@@ -237,10 +237,11 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
   echo "(copy it back after the install to maintain node.js and io.js separately)"
   echo ""
   sleep 3
-  echo "################################################################################"
   echo sudo mv "$(which node)" "$(which node).$(node -v)"
-  echo "################################################################################"
   sudo mv "$(which node)" "$(which node).$(node -v)"
+  echo "################################################################################"
+  echo "to restore backup: sudo rsync -a '$(which node).$(node -v)' '$(which node)'
+  echo "################################################################################"
   echo ""
 fi
 
