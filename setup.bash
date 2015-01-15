@@ -234,7 +234,7 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
   echo ""
   echo "You have node.js installed."
   echo "Backing up $(which node) as $(which node).$(node -v)"
-  echo "(copy it back after the install if to maintain node.js and io.js separately)"
+  echo "(copy it back after the install to maintain node.js and io.js separately)"
   echo ""
   sleep 3
   echo "################################################################################"
