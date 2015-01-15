@@ -12,6 +12,9 @@ echo "v1.0.1" > /tmp/IOJS_VER
 curl -fsSL bit.ly/install-iojs | bash
 ```
 
+**NOTE**: If you have node installed, this script will rename it so that it isn't overwritten by the iojs installer.
+
+
 **For older versions of Ubuntu**:
 
 ```bash
@@ -20,7 +23,6 @@ wget -nv bit.ly/install-iojs -O - | bash
 
 This is what gets installed:
 
-* fail2ban (not necessary for development, but should be on every server)
 * rsync
 * curl
 * wget
@@ -28,6 +30,8 @@ This is what gets installed:
 * xcode / brew / build-essential / pkg-config / gcc
 * iojs (including npm and node symlink)
 * jshint
+
+**NOTE**: If `fail2ban` is not already securing ssh, you will be asked to install it.
 
 Screencast
 ==========
