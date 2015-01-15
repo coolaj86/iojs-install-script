@@ -23,32 +23,38 @@ then
   sudo bash -c "apt-get install -qq -y git wget curl build-essential rsync pkg-config < /dev/null" > /dev/null 2>/dev/null
 fi
 
-# iojs
-if [ -n "$(which node | grep node 2>/dev/null)" ]; then
-  if [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
-    clear
-    echo "HEY, LISTEN!"
-    echo ""
-    echo "You have node.js installed. Backing up $(which node) as $(which node).$(node -v)"
-    echo "(you can move it back after the install if you want separate node.js and io.js installations)"
-    echo ""
-    sleep 3
-    echo sudo mv "$(which node)" "$(which node).$(node -v)"
-    sudo mv "$(which node)" "$(which node).$(node -v)"
-  fi
-  
+#
+# iojs  
+#
+if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
+# iojs of some version is already installed
   if [ "${IOJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
     echo iojs ${IOJS_VER} already installed
     IOJS_VER=""
   else
-    clear
-    echo ""
     echo "HEY, LISTEN:"
+    echo ""
     echo "io.js is already installed as iojs $(iojs -v | grep v)"
     echo ""
     echo "to reinstall please first run: rm $(which iojs)"
     echo ""
   fi
+elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
+# node of some version is already installed
+  echo ""
+  echo "################################################################################"
+  echo ""
+  echo "HEY, LISTEN!"
+  echo ""
+  echo "You have node.js installed."
+  echo "Backing up $(which node) as $(which node).$(node -v)"
+  echo "(copy it back after the install if to maintain node.js and io.js separately)"
+  echo ""
+  echo sudo mv "$(which node)" "$(which node).$(node -v)"
+  sudo mv "$(which node)" "$(which node).$(node -v)"
+  sleep 3
+  echo "################################################################################"
+  echo ""
 fi
 
 if [ -n "${IOJS_VER}" ]; then
