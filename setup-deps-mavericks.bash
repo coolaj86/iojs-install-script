@@ -5,6 +5,13 @@ NO_FAIL2BAN=${1}
 
 echo ""
 echo ""
+echo "Checking for"
+echo ""
+echo "    * XCode Command Line Tools"
+echo "    * wget"
+echo "    * pkg-config"
+echo "    * jshint"
+echo ""
 
 # XCode
 # testing for which git, gcc, etc will not work because the tools are aliased to the install script
@@ -31,8 +38,6 @@ if [ -z "$(xcode-select --print-path 2>/dev/null)" ] || [ -z "$(git --version 2>
   echo "It looks like the other install is finishing up."
   echo "This installation will begin in one minute."
   sleep 60
-else
-  echo "XCode Command Line Tools already installed"
 fi
 
 # homebrew
@@ -48,8 +53,6 @@ fi
 if [ -z "$(which wget | grep wget)" ]; then
   echo "installing wget..."
   brew install wget
-else
-  echo "wget already installed"
 fi
 
 # http://www.fail2ban.org/wiki/index.php/HOWTO_Mac_OS_X_Server_(10.5)
@@ -64,6 +67,4 @@ fi
 if [ -z "$(which pkg-config | grep pkg-config)" ]; then
   echo "installing pkg-config..."
   brew install pkg-config
-else
-  echo "pkg-config already installed"
 fi

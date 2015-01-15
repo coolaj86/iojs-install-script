@@ -138,7 +138,7 @@ esac
 # Download installers #
 #######################
 
-echo "${OS}" "${ARCH}"
+echo "Preparing to install io.js (and common development dependencies) for ${OS}" "${ARCH}"
 
 if [ -n "$(which curl)" ]; then
   curl --silent "${BASE_URL}/setup-deps-${SETUP_FILE}.bash" \
@@ -210,24 +210,15 @@ if [ -z "$IOJS_VER" ]; then
   IOJS_VER="v1.0.1"
 fi
 
-if [ -n "$(which iojs 2>/dev/null || false)" ]; then
-  echo ""
-  echo "HEY, LISTEN:"
-  echo "io.js is already install as iojs $(iojs -v | grep v)"
-  echo ""
-  echo "to reinstall please first run:"
-  echo "sudo mv '$(which iojs)' '$(which iojs).$(iojs -v)'"
-  echo ""
-fi
-
 #
 # iojs  
 #
 if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
 # iojs of some version is already installed
   if [ "${IOJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
-    echo iojs ${IOJS_VER} already installed
+    echo iojs ${IOJS_VER} is already installed
   else
+    echo ""
     echo "HEY, LISTEN:"
     echo ""
     echo "io.js is already installed as iojs $(iojs -v | grep v)"
@@ -239,18 +230,17 @@ if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
 elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
 # node of some version is already installed
   echo ""
-  echo "################################################################################"
-  echo ""
   echo "HEY, LISTEN!"
   echo ""
   echo "You have node.js installed."
   echo "Backing up $(which node) as $(which node).$(node -v)"
   echo "(copy it back after the install if to maintain node.js and io.js separately)"
   echo ""
-  echo sudo mv "$(which node)" "$(which node).$(node -v)"
   sleep 3
-  sudo mv "$(which node)" "$(which node).$(node -v)"
   echo "################################################################################"
+  echo sudo mv "$(which node)" "$(which node).$(node -v)"
+  echo "################################################################################"
+  sudo mv "$(which node)" "$(which node).$(node -v)"
   echo ""
 fi
 
@@ -262,8 +252,6 @@ fi
 if [ -z "$(which jshint | grep jshint)" ]; then
   echo "installing jshint..."
   npm install --silent jshint -g > /dev/null
-else
-  echo "jshint already installed"
 fi
 
 echo ""

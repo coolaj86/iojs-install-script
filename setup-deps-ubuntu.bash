@@ -6,6 +6,15 @@ NO_FAIL2BAN=${1}
 
 echo ""
 echo ""
+echo "Checking for"
+echo ""
+echo "    * build-essential"
+echo "    * rsync"
+echo "    * wget"
+echo "    * curl"
+echo "    * pkg-config"
+echo "    * jshint"
+echo ""
 
 echo "updating apt-get..."
 sudo bash -c "apt-get update -qq -y < /dev/null" > /dev/null
