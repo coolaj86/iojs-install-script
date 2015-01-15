@@ -43,6 +43,7 @@ if [ -n "$(which node | grep node 2>/dev/null)" ]; then
     echo ""
     echo "to reinstall please first run: rm $(which iojs)"
     echo ""
+    IOJS_VER=""
   fi
 fi
 
