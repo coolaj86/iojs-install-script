@@ -35,6 +35,7 @@ if [ -n "$(which node | grep node 2>/dev/null)" ]; then
   
   if [ "${IOJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
     echo iojs ${IOJS_VER} already installed
+    IOJS_VER=""
   else
     clear
     echo ""
@@ -43,7 +44,6 @@ if [ -n "$(which node | grep node 2>/dev/null)" ]; then
     echo ""
     echo "to reinstall please first run: rm $(which iojs)"
     echo ""
-    IOJS_VER=""
   fi
 fi
 
