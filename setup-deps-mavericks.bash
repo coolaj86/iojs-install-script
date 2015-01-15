@@ -10,6 +10,8 @@ echo ""
 echo "    * XCode Command Line Tools"
 echo "    * wget"
 echo "    * pkg-config"
+echo "    * node"
+echo "    * iojs"
 echo "    * jshint"
 echo ""
 

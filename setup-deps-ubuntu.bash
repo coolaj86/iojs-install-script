@@ -13,6 +13,8 @@ echo "    * rsync"
 echo "    * wget"
 echo "    * curl"
 echo "    * pkg-config"
+echo "    * node"
+echo "    * iojs"
 echo "    * jshint"
 echo ""
 
