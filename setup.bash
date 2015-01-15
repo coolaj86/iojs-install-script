@@ -240,7 +240,7 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
   echo sudo mv "$(which node)" "$(which node).$(node -v)"
   sudo mv "$(which node)" "$(which node).$(node -v)"
   echo "################################################################################"
-  echo "to restore backup: sudo rsync -a '$(which node).$(node -v)' '$(which node)'
+  echo "to restore backup: sudo rsync -a '$(which node).$(node -v)' '$(which node)'"
   echo "################################################################################"
   echo ""
 fi
