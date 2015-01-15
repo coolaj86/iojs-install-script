@@ -54,12 +54,44 @@ fi
 
 # http://www.fail2ban.org/wiki/index.php/HOWTO_Mac_OS_X_Server_(10.5)
 if [ -z "$(which fail2ban-server | grep fail2ban)" ]; then
-  echo "installing fail2ban..."
-  brew install fail2ban
-  sudo cp -fv /usr/local/opt/fail2ban/*.plist /Library/LaunchDaemons
-  sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.fail2ban.plist
-else
-  echo "fail2ban already installed"
+  clear
+  echo ""
+  echo "Your server didn't come with fail2ban preinstalled!!!"
+  echo "Among other things, fail2ban secures ssh so that your server isn't reaped by botnets."
+  echo ""
+  echo "Since you're obviosly connecting this computer to a network, you should install fail2ban before continuing"
+  echo ""
+  echo "Install fail2ban? [Y/n]"
+  echo "(if unsure, just hit [enter])"
+  read INSTALL_FAIL2BAN
+  if [ "n" == "${INSTALL_FAIL2BAN}" ] || [ "no" == "${INSTALL_FAIL2BAN}" ] || [ "N" == "${INSTALL_FAIL2BAN}" ] || [ "NO" == "${INSTALL_FAIL2BAN}" ]; then
+    clear
+    echo ""
+    echo "I don't think you understand. This is important."
+    echo ""
+    echo "Your server will be under constant attack by botnets via ssh."
+    echo "It only takes a few extra seconds to install and the defaults are adequate for protecting you."
+    echo ""
+    echo "Change your mind?"
+    echo "Ready to install fail2ban? [Y/n]"
+    read INSTALL_FAIL2BAN
+    if [ "n" == "${INSTALL_FAIL2BAN}" ] || [ "no" == "${INSTALL_FAIL2BAN}" ] || [ "N" == "${INSTALL_FAIL2BAN}" ] || [ "NO" == "${INSTALL_FAIL2BAN}" ]; then
+      clear
+      echo "you make me sad :-("
+      sleep 0.5
+      echo "but whatever, it's your funeral..."
+      sleep 1
+    else
+      echo "Phew, dodged the bullet on that one... Installing fail2ban.. :-)"
+      brew install fail2ban
+      sudo cp -fv /usr/local/opt/fail2ban/*.plist /Library/LaunchDaemons
+      sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.fail2ban.plist
+    fi
+  else
+    brew install fail2ban
+    sudo cp -fv /usr/local/opt/fail2ban/*.plist /Library/LaunchDaemons
+    sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.fail2ban.plist
+  fi
 fi
 
 if [ -z "$(which pkg-config | grep pkg-config)" ]; then
@@ -70,12 +102,21 @@ else
 fi
 
 # iojs
-if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
+if [ -n "$(which node | grep node 2>/dev/null)" ]; then
   IOJS_VER=""
+  
+  if [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
+    echo "You have node.js installed. Backing up $(which node) as $(which node).joyent"
+    echo "(you can move it back after the install if you want separate node.js and io.js installations)"
+    echo ""
+    echo sudo mv "$(which node)" "$(which node).joyent"
+    sudo mv "$(which node)" "$(which node).joyent"
+  fi
   
   if [ "${IOJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
     echo iojs ${IOJS_VER} already installed
   else
+    clear
     echo ""
     echo "HEY, LISTEN:"
     echo "io.js is already installed as iojs $(iojs -v | grep v)"
