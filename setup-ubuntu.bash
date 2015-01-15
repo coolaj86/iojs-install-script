@@ -25,8 +25,6 @@ fi
 
 # iojs
 if [ -n "$(which node | grep node 2>/dev/null)" ]; then
-  IOJS_VER=""
-  
   if [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
     echo "You have node.js installed. Backing up $(which node) as $(which node).joyent"
     echo "(you can move it back after the install if you want separate node.js and io.js installations)"
