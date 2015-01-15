@@ -4,6 +4,8 @@ A script to install basic development tools for iojs (git, iojs, gcc, pkg-config
 
 Works for any recent version of Ubuntu or OS X.
 
+**NOTE**: If you have node installed, this script will rename it so that it isn't overwritten by the iojs installer.
+
 ```bash
 # Specify the version of iojs to install
 echo "v1.0.1" > /tmp/IOJS_VER
@@ -28,7 +30,7 @@ This is what gets installed:
 * iojs (including npm and node symlink)
 * jshint
 
-If `fail2ban` is not already securing ssh, you will be asked to install it.
+**NOTE**: If `fail2ban` is not already securing ssh, you will be asked to install it.
 
 Screencast
 ==========
