@@ -9,7 +9,12 @@ Works for any recent version of Ubuntu or OS X.
 echo "v1.0.1" > /tmp/IOJS_VER
 
 # And install away!
-curl -fsSL bit.ly/install-iojs -o /tmp/iojs-dev.bash; bash /tmp/iojs-dev.bash
+curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.bash; bash /tmp/iojs-dev.bash
+```
+
+```
+# Or if you don't need any development tools
+curl -fsSL bit.ly/iojs-min | bash
 ```
 
 **NOTE**: If you have node installed, this script will rename it so that it isn't overwritten by the iojs installer.
