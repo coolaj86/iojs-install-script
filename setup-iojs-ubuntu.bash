@@ -23,7 +23,7 @@ if [ -n "${IOJS_VER}" ]; then
     exit 1
   fi
 
-  tar xf ${IOJS_LOCAL}
+  tar xf ${IOJS_LOCAL} -C /tmp/
   rm ${IOJS_UNTAR}/{LICENSE,CHANGELOG.md,README.md}
   sudo rsync -a "${IOJS_UNTAR}/" /usr/local/
 
