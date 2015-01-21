@@ -4,7 +4,7 @@ A script to install basic development tools for io.js - the new node.js - git, i
 
 * [Instructions for OS X](#apple-os-x)
 * [Instructions for Ubuntu Linux](#ubuntu-linux)
-* [Instructions for TL;DR](#tl-dr)
+* [Instructions for TL;DR](#tldr)
 * [Important Notes](#other-things-you-should-know)
 
 ## TL;DR
