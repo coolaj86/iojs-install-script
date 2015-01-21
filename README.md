@@ -7,6 +7,10 @@ A script to install basic development tools for io.js - the new node.js - git, i
 * [Instructions for TL;DR](#tldr)
 * [Important Notes](#other-things-you-should-know)
 
+## Screencast
+
+[How to Setup a VPS for io.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) - [(3:06 installing io.js](https://www.youtube.com/watch?v=ypjzi1axH2A#t=186))
+
 ## TL;DR
 
 If you kinda know what you're doing already:
@@ -23,10 +27,6 @@ Or, if you don't need any developer tools and you *just* want io.js
 echo "v1.0.1" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-min | bash
 ```
-
-## Screencast
-
-[How to Setup a VPS for io.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) - [(3:06 installing io.js](https://www.youtube.com/watch?v=ypjzi1axH2A#t=186))
 
 ## Apple OS X
 
