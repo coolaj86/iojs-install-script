@@ -15,17 +15,21 @@ A script to install basic development tools for io.js - the new node.js - git, i
 
 If you kinda know what you're doing already:
 
+**io.js + dev tools**
+
 ```bash
 echo "v1.0.3" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
 
-Or, if you don't need any developer tools and you *just* want io.js
+**io.js only** (no git, gcc, etc)
 
 ```bash
-# Or if you don't need any development tools
 echo "v1.0.3" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-min | bash
+
+# Ubuntu without curl
+wget -nv bit.ly/iojs-min -O - | bash
 ```
 
 ## Apple OS X
