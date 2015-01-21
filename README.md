@@ -1,4 +1,4 @@
-# iojs-install-script
+# Automated io.js installers for OS X and Ubuntu
 
 A script to install basic development tools for io.js - the new node.js - git, iojs, gcc, pkg-config, etc
 
