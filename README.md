@@ -22,7 +22,7 @@ curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 
 Or, if you don't need any developer tools and you *just* want io.js
 
-```
+```bash
 # Or if you don't need any development tools
 echo "v1.0.1" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-min | bash
@@ -32,14 +32,14 @@ curl -fsSL bit.ly/iojs-min | bash
 
 First you need to install X Code Tools
 
-```
+```bash
 xcode-select --install
 ```
 
 Then you need to *Accept the License* by running any command installed by Xcode with sudo. We'll use git.
 
-```
-sudo git status
+```bash
+sudo git --version
 ```
 
 You can scroll to the bottom by hitting shift+G (capital G).
@@ -60,7 +60,7 @@ curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 
 ## Ubuntu Linux
 
-```
+```bash
 # Specify the version of iojs to install
 echo "v1.0.1" > /tmp/IOJS_VER
 
