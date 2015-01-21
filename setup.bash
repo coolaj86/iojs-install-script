@@ -207,7 +207,7 @@ if [ -f "/tmp/IOJS_VER" ]; then
 fi
 
 if [ -z "$IOJS_VER" ]; then
-  IOJS_VER="v1.0.1"
+  IOJS_VER="v1.0.3"
 fi
 
 #
@@ -242,7 +242,7 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
   echo sudo mv "$NODE_PATH" "$NODE_PATH.$NODE_VER"
   sudo mv "$NODE_PATH" "$NODE_PATH.$NODE_VER"
   echo "################################################################################"
-  echo "to restore backup: sudo rsync -a '$(which node).$(node -v)' '$(which node)'"
+  echo "to restore backup: sudo rsync -a '"$NODE_PATH.$NODE_VER"' '$NODE_PATH'"
   echo "################################################################################"
   echo ""
 fi
