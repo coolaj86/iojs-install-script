@@ -30,13 +30,13 @@ curl -fsSL bit.ly/iojs-min | bash
 
 ## Apple OS X
 
-First you need to install X Code Tools
+First you need to **Install XCode Command Line Tools**
 
 ```bash
 xcode-select --install
 ```
 
-Then you need to *Accept the License* by running any command installed by Xcode with sudo. We'll use git.
+Then you need to **Accept the XCode License** by running any command installed by Xcode with sudo. We'll use git.
 
 ```bash
 sudo git --version
