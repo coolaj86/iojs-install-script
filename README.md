@@ -1,8 +1,47 @@
 # iojs-install-script
 
-A script to install basic development tools for iojs (git, iojs, gcc, pkg-config, etc)
+A script to install basic development tools for io.js - the new node.js - git, iojs, gcc, pkg-config, etc
 
-Works for any recent version of Ubuntu or OS X.
+## TL;DR
+
+If you kinda know what you're doing already:
+
+```bash
+echo "v1.0.1" > /tmp/IOJS_VER
+curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
+```
+
+Or, if you don't need any developer tools and you *just* want io.js
+
+```
+# Or if you don't need any development tools
+echo "v1.0.1" > /tmp/IOJS_VER
+curl -fsSL bit.ly/iojs-min | bash
+```
+
+## Screencast
+
+[How to Setup a VPS for io.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) - [(3:06 installing io.js](https://www.youtube.com/watch?v=ypjzi1axH2A#t=186))
+
+## Apple OS X
+
+First you need to install X Code Tools
+
+```
+xcode-select --install
+```
+
+Then you need to *Accept the License* by running any command installed by Xcode with sudo. We'll use git.
+
+```
+sudo git status
+```
+
+You can scroll to the bottom by hitting shift+G (capital G).
+
+Type `agree` and hit enter to accept the license.
+
+Now you can install io.js (the new node.js)
 
 ```bash
 # Specify the version of iojs to install
@@ -12,19 +51,21 @@ echo "v1.0.1" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
 
+*TODO*: Make it easier to accepting the license (automatic?)
+
+## Ubuntu Linux
+
 ```
-# Or if you don't need any development tools
-curl -fsSL bit.ly/iojs-min | bash
+# Specify the version of iojs to install
+echo "v1.0.1" > /tmp/IOJS_VER
+
+# And install away!
+wget -nv bit.ly/iojs-dev -O /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
+
+## Other things you should know
 
 **NOTE**: If you have node installed, this script will rename it so that it isn't overwritten by the iojs installer.
-
-
-**For older versions of Ubuntu**:
-
-```bash
-wget -nv bit.ly/install-iojs -O - | bash
-```
 
 This is what gets installed:
 
@@ -38,10 +79,6 @@ This is what gets installed:
 
 **NOTE**: If `fail2ban` is not already securing ssh, you will be asked to install it.
 
-Screencast
-==========
-
-[How to Setup a VPS for io.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) - [(3:06 installing io.js](https://www.youtube.com/watch?v=ypjzi1axH2A#t=186))
 
 Front-End Extras
 ================
