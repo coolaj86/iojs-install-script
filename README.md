@@ -16,7 +16,7 @@ A script to install basic development tools for io.js - the new node.js - git, i
 If you kinda know what you're doing already:
 
 ```bash
-echo "v1.0.1" > /tmp/IOJS_VER
+echo "v1.0.3" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
 
@@ -24,7 +24,7 @@ Or, if you don't need any developer tools and you *just* want io.js
 
 ```bash
 # Or if you don't need any development tools
-echo "v1.0.1" > /tmp/IOJS_VER
+echo "v1.0.3" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-min | bash
 ```
 
@@ -50,7 +50,7 @@ Now you can install io.js (the new node.js)
 
 ```bash
 # Specify the version of iojs to install
-echo "v1.0.1" > /tmp/IOJS_VER
+echo "v1.0.3" > /tmp/IOJS_VER
 
 # And install away!
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
@@ -62,7 +62,7 @@ curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 
 ```bash
 # Specify the version of iojs to install
-echo "v1.0.1" > /tmp/IOJS_VER
+echo "v1.0.3" > /tmp/IOJS_VER
 
 # And install away!
 wget -nv bit.ly/iojs-dev -O /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
