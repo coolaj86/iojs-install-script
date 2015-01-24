@@ -18,14 +18,14 @@ If you kinda know what you're doing already:
 **io.js + dev tools**
 
 ```bash
-echo "v1.0.3" > /tmp/IOJS_VER
+echo "v1.0.4" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
 
 **io.js only** (no git, gcc, etc)
 
 ```bash
-echo "v1.0.3" > /tmp/IOJS_VER
+echo "v1.0.4" > /tmp/IOJS_VER
 curl -fsSL bit.ly/iojs-min | bash
 
 # Ubuntu without curl
@@ -54,7 +54,7 @@ Now you can install io.js (the new node.js)
 
 ```bash
 # Specify the version of iojs to install
-echo "v1.0.3" > /tmp/IOJS_VER
+echo "v1.0.4" > /tmp/IOJS_VER
 
 # And install away!
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
