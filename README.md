@@ -2,9 +2,11 @@
 
 A script to install basic development tools for io.js - the new node.js - git, iojs, gcc, pkg-config, etc
 
-* [Instructions for OS X](#apple-os-x)
-* [Instructions for Ubuntu Linux](#ubuntu-linux)
-* [Instructions for TL;DR](#tldr)
+Pick one:
+
+* [OS X](#apple-os-x)
+* [Ubuntu Linux](#ubuntu-linux)
+* [TL;DR](#tldr)
 * [Important Notes](#other-things-you-should-know)
 
 ## Screencast
