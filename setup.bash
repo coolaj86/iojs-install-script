@@ -207,7 +207,7 @@ if [ -f "/tmp/IOJS_VER" ]; then
 fi
 
 if [ -z "$IOJS_VER" ]; then
-  IOJS_VER="v1.1.0"
+  IOJS_VER="v1.5.1"
 fi
 
 #
