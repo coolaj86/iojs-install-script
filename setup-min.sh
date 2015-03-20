@@ -109,7 +109,7 @@ case "${OS}" in
     SETUP_FILE="ubuntu"
     ;;
   raspbian)
-    SETUP_FILE="raspbian"
+    SETUP_FILE="ubuntu"
     ;;
   yosemite)
     # mavericks
