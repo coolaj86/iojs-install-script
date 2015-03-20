@@ -90,6 +90,8 @@ elif [ "$(uname | grep -i 'Linux')" ]; then
 
   if [ "$(cat /etc/issue | grep -i 'Ubuntu')" ]; then
     OS='ubuntu'
+  elif [ "$(cat /etc/issue | grep -i 'Raspbian')" ]; then
+    OS='raspbian'
   elif [ "$(cat /etc/issue | grep -i 'Fedora')" ]; then
     OS='fedora'
   fi
@@ -105,6 +107,9 @@ case "${OS}" in
     ;;
   ubuntu)
     SETUP_FILE="ubuntu"
+    ;;
+  raspbian)
+    SETUP_FILE="raspbian"
     ;;
   yosemite)
     # mavericks
