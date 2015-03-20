@@ -2,6 +2,10 @@ IOJS_VER=${1}
 
 if [ -n "$(arch | grep 64)" ]; then
   ARCH="x64"
+elif [ -n "$(arch | grep armv7l)" ]; then
+  ARCH="armv7l"
+elif [ -n "$(arch | grep armv6l)" ]; then
+  ARCH="armv6l"
 else
   ARCH="x86"
 fi
