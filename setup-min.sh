@@ -162,7 +162,16 @@ if [ -f "/tmp/IOJS_VER" ]; then
 fi
 
 if [ -z "$IOJS_VER" ]; then
-  IOJS_VER="v1.5.1"
+  if [ -n "$(which curl)" ]; then
+    IOJS_VER="$(curl -fsSL https://iojs.org/dist/index.tab | head -2 | tail -1 | cut -f 1)" \
+      || echo 'error automatically determining current io.js version'
+  elif [ -n "$(which wget)" ]; then
+    IOJS_VER="wget --quiet https://iojs.org/dist/index.tab | head -2 | tail -1 | cut -f 1)" \
+      || echo 'error automatically determining current io.js version'
+  else
+    echo "Found neither 'curl' nor 'wget'. Can't Continue."
+    exit 1
+  fi
 fi
 
 #
