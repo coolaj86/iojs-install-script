@@ -58,10 +58,6 @@ Type `agree` and hit enter to accept the license.
 Now you can install io.js (the new node.js)
 
 ```bash
-# Specify the version of iojs to install
-echo "v1.6.3" > /tmp/IOJS_VER
-
-# And install away!
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
 
@@ -70,10 +66,6 @@ curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ## Ubuntu Linux
 
 ```bash
-# Specify the version of iojs to install
-echo "v1.6.3" > /tmp/IOJS_VER
-
-# And install away!
 wget -nv bit.ly/iojs-dev -O /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
 
