@@ -20,14 +20,17 @@ If you kinda know what you're doing already:
 **io.js + dev tools**
 
 ```bash
-echo "v1.6.3" > /tmp/IOJS_VER
+echo "Current io.js version is $(curl -fsSL https://iojs.org/dist/index.tab | head -2 | tail -1 | cut -f 1)"
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
 
 **io.js only** (no git, gcc, etc)
 
 ```bash
-echo "v1.6.3" > /tmp/IOJS_VER
+# To install a specific version rather than defaulting to latest
+echo "v1.8.1" > /tmp/IOJS_VER
+
+# io.js without development dependencies
 curl -fsSL bit.ly/iojs-min | bash
 
 # Ubuntu without curl
