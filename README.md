@@ -28,7 +28,8 @@ curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 
 ```bash
 # To install a specific version rather than defaulting to latest
-echo "v1.8.2" > /tmp/IOJS_VER
+# latest version at time of writing are v1.8.4, v2.5.0, and v3.1.0
+echo "v2.5.0" > /tmp/IOJS_VER
 
 # io.js without development dependencies
 curl -fsSL bit.ly/iojs-min | bash
