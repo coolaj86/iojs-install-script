@@ -9,13 +9,13 @@
 # curl -fsSL https://example.com/setup.bash | bash
 # wget -nv https://example.com/setup.bash -O - | bash
 
-NODEJS_BASE_URL="https://iojs.org"
-#NODEJS_BASE_URL="https://nodejs.org"
+NODEJS_NAME="node"
+NODEJS_BASE_URL="https://nodejs.org"
 BASE_URL="https://raw.githubusercontent.com/coolaj86/iojs-install-script/master"
 NO_FAIL2BAN=""
 OS="unsupported"
 ARCH=""
-IOJS_VER=""
+NODEJS_VER=""
 SETUP_FILE=""
 
 clear
@@ -145,18 +145,18 @@ esac
 # Download installers #
 #######################
 
-echo "Preparing to install io.js (and common development dependencies) for ${OS}" "${ARCH}"
+echo "Preparing to install ${NODEJS_NAME} (and common development dependencies) for ${OS}" "${ARCH}"
 
 if [ -n "$(which curl)" ]; then
   curl --silent "${BASE_URL}/setup-deps-${SETUP_FILE}.bash" \
-    -o /tmp/install-iojs-deps.bash || echo 'error downloading os setup script'
+    -o /tmp/install-${NODEJS_NAME}-deps.bash || echo 'error downloading os setup script'
   curl --silent "${BASE_URL}/setup-iojs-${SETUP_FILE}.bash" \
-    -o /tmp/install-iojs.bash || echo 'error downloading os setup script'
+    -o /tmp/install-${NODEJS_NAME}.bash || echo 'error downloading os setup script'
 elif [ -n "$(which wget)" ]; then
   wget --quiet "${BASE_URL}/setup-deps-${SETUP_FILE}.bash" \
-    -O /tmp/install-iojs-deps.bash || echo 'error downloading os setup script'
+    -O /tmp/install-${NODEJS_NAME}-deps.bash || echo 'error downloading os setup script'
   wget --quiet "${BASE_URL}/setup-iojs-${SETUP_FILE}.bash" \
-    -O /tmp/install-iojs.bash || echo 'error downloading os setup script'
+    -O /tmp/install-${NODEJS_NAME}.bash || echo 'error downloading os setup script'
 else
   echo "Found neither 'curl' nor 'wget'. Can't Continue."
   exit 1
@@ -203,23 +203,39 @@ if [ -z "$(which fail2ban-server | grep fail2ban)" ]; then
   fi
 fi
 
-bash /tmp/install-iojs-deps.bash "${NO_FAIL2BAN}"
+bash /tmp/install-${NODEJS_NAME}-deps.bash "${NO_FAIL2BAN}"
 
 #########################
-# Which io.js VERSION ? #
+# Which node.js VERSION ? #
 #########################
 
-if [ -f "/tmp/IOJS_VER" ]; then
-  IOJS_VER=$(cat /tmp/IOJS_VER | grep v)
+if [ -f "/tmp/NODEJS_VER" ]; then
+  NODEJS_VER=$(cat /tmp/NODEJS_VER | grep v)
+elif [ -f "/tmp/IOJS_VER" ]; then
+  NODEJS_VER=$(cat /tmp/IOJS_VER | grep v)
 fi
 
-if [ -z "$IOJS_VER" ]; then
+if [ -n "$NODEJS_VER" ]; then
+  NODEJS_VERT=$(echo ${NODEJS_VER} | cut -c 2- | cut -d '.' -f1)
+
+  GE1=$(echo "$NODEJS_VERT>=1" | bc)
+  LT4=$(echo "$NODEJS_VERT<4" | bc)
+
+  if [ "1" -eq $GE1  ] && [ "1" -eq $LT4 ]
+  then
+    echo "Selecting io.js instead of node.js for this version"
+    NODEJS_BASE_URL="https://iojs.org"
+    NODEJS_NAME="iojs"
+  fi
+fi
+
+if [ -z "$NODEJS_VER" ]; then
   if [ -n "$(which curl)" ]; then
-    IOJS_VER="$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1)" \
-      || echo 'error automatically determining current io.js version'
+    NODEJS_VER="$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1)" \
+      || echo 'error automatically determining current ${NODEJS_NAME} version'
   elif [ -n "$(which wget)" ]; then
-    IOJS_VER="wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1)" \
-      || echo 'error automatically determining current io.js version'
+    NODEJS_VER="wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1)" \
+      || echo 'error automatically determining current ${NODEJS_NAME} version'
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
     exit 1
@@ -227,22 +243,22 @@ if [ -z "$IOJS_VER" ]; then
 fi
 
 #
-# iojs  
+# iojs
 #
 if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
 # iojs of some version is already installed
-  if [ "${IOJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
-    echo iojs ${IOJS_VER} is already installed
+  if [ "${NODEJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
+    echo iojs ${NODEJS_VER} is already installed
   else
     echo ""
     echo "HEY, LISTEN:"
     echo ""
-    echo "io.js is already installed as iojs $(iojs -v | grep v)"
+    echo "${NODEJS_NAME} is already installed as iojs $(iojs -v | grep v)"
     echo ""
     echo "to reinstall please first run: rm $(which iojs)"
     echo ""
   fi
-  IOJS_VER=""
+  NODEJS_VER=""
 elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
 # node of some version is already installed
   echo ""
@@ -250,7 +266,6 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
   echo ""
   echo "You have node.js installed."
   echo "Backing up $(which node) as $(which node).$(node -v)"
-  echo "(copy it back after the install to maintain node.js and io.js separately)"
   echo ""
   sleep 3
   NODE_PATH=$(which node)
@@ -263,8 +278,8 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
   echo ""
 fi
 
-if [ -n "${IOJS_VER}" ]; then
-  bash /tmp/install-iojs.bash "${IOJS_VER}"
+if [ -n "${NODEJS_VER}" ]; then
+  bash /tmp/install-${NODEJS_NAME}.bash "${NODEJS_VER}"
 fi
 
 # jshint

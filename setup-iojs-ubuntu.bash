@@ -1,4 +1,17 @@
-IOJS_VER=${1}
+NODEJS_VER=${1}
+NODEJS_VERT=$(echo ${NODEJS_VER} | cut -c 2- | cut -d '.' -f1)
+
+NODEJS_NAME="node"
+NODEJS_BASE_URL="https://nodejs.org"
+
+GE1=$(echo "$NODEJS_VERT>=1" | bc)
+LT4=$(echo "$NODEJS_VERT<4" | bc)
+
+if [ "1" -eq $GE1  ] && [ "1" -eq $LT4 ]
+then
+  NODEJS_BASE_URL="https://iojs.org"
+  NODEJS_NAME="iojs"
+fi
 
 if [ -n "$(arch | grep 64)" ]; then
   ARCH="x64"
@@ -10,26 +23,26 @@ else
   ARCH="x86"
 fi
 
-IOJS_REMOTE="http://iojs.org/dist/${IOJS_VER}/iojs-${IOJS_VER}-linux-${ARCH}.tar.gz"
-IOJS_LOCAL="/tmp/iojs-${IOJS_VER}-linux-${ARCH}.tar.gz"
-IOJS_UNTAR="/tmp/iojs-${IOJS_VER}-linux-${ARCH}"
+NODEJS_REMOTE="${NODEJS_BASE_URL}/dist/${NODEJS_VER}/${NODEJS_NAME}-${NODEJS_VER}-linux-${ARCH}.tar.gz"
+NODEJS_LOCAL="/tmp/${NODEJS_NAME}-${NODEJS_VER}-linux-${ARCH}.tar.gz"
+NODEJS_UNTAR="/tmp/${NODEJS_NAME}-${NODEJS_VER}-linux-${ARCH}"
 
-if [ -n "${IOJS_VER}" ]; then
-  echo "installing io.js as iojs ${IOJS_VER}..."
+if [ -n "${NODEJS_VER}" ]; then
+  echo "installing ${NODEJS_NAME} as ${NODEJS_NAME} ${NODEJS_VER}..."
 
   if [ -n "$(which curl 2>/dev/null)" ]; then
-    curl -fsSL ${IOJS_REMOTE} -o ${IOJS_LOCAL} || echo 'error downloading io.js'
+    curl -fsSL ${NODEJS_REMOTE} -o ${NODEJS_LOCAL} || echo 'error downloading ${NODEJS_NAME}'
   elif [ -n "$(which wget 2>/dev/null)" ]; then
-    wget --quiet ${IOJS_REMOTE} -O ${IOJS_LOCAL} || echo 'error downloading io.js'
+    wget --quiet ${NODEJS_REMOTE} -O ${NODEJS_LOCAL} || echo 'error downloading ${NODEJS_NAME}'
   else
     echo "'wget' and 'curl' are missing. Please run the following command and try again"
     echo "\tsudo apt-get install --yes curl wget"
     exit 1
   fi
 
-  tar xf ${IOJS_LOCAL} -C /tmp/
-  rm ${IOJS_UNTAR}/{LICENSE,CHANGELOG.md,README.md}
-  sudo rsync -a "${IOJS_UNTAR}/" /usr/local/
+  tar xf ${NODEJS_LOCAL} -C /tmp/
+  rm ${NODEJS_UNTAR}/{LICENSE,CHANGELOG.md,README.md}
+  sudo rsync -a "${NODEJS_UNTAR}/" /usr/local/
 
 
   sudo chown -R $(whoami) /usr/local

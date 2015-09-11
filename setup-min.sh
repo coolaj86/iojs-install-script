@@ -12,10 +12,12 @@
 # curl -fsSL https://example.com/setup-min.bash | bash
 # wget -nv https://example.com/setup-min.bash -O - | bash
 
+NODEJS_NAME="node"
+NODEJS_BASE_URL="https://nodejs.org"
 BASE_URL="https://raw.githubusercontent.com/coolaj86/iojs-install-script/master"
 OS="unsupported"
 ARCH=""
-IOJS_VER=""
+NODEJS_VER=""
 SETUP_FILE=""
 
 clear
@@ -157,16 +159,31 @@ fi
 # Which io.js VERSION ? #
 #########################
 
-if [ -f "/tmp/IOJS_VER" ]; then
-  IOJS_VER=$(cat /tmp/IOJS_VER | grep v)
+if [ -f "/tmp/NODEJS_VER" ]; then
+  NODEJS_VER=$(cat /tmp/NODEJS_VER | grep v)
+elif [ -f "/tmp/IOJS_VER" ]; then
+  NODEJS_VER=$(cat /tmp/IOJS_VER | grep v)
 fi
 
-if [ -z "$IOJS_VER" ]; then
+if [ -n "$NODEJS_VER" ]; then
+  NODEJS_VERT=$(echo ${NODEJS_VER} | cut -c 2- | cut -d '.' -f1)
+
+  GE1=$(echo "$NODEJS_VERT>=1" | bc)
+  LT4=$(echo "$NODEJS_VERT<4" | bc)
+
+  if [ "1" -eq $GE1  ] && [ "1" -eq $LT4 ]
+  then
+    NODEJS_BASE_URL="https://iojs.org"
+    NODEJS_NAME="iojs"
+  fi
+fi
+
+if [ -z "$NODEJS_VER" ]; then
   if [ -n "$(which curl)" ]; then
-    IOJS_VER="$(curl -fsSL https://iojs.org/dist/index.tab | head -2 | tail -1 | cut -f 1)" \
+    NODEJS_VER="$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1)" \
       || echo 'error automatically determining current io.js version'
   elif [ -n "$(which wget)" ]; then
-    IOJS_VER="wget --quiet https://iojs.org/dist/index.tab -O - | head -2 | tail -1 | cut -f 1)" \
+    NODEJS_VER="wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1)" \
       || echo 'error automatically determining current io.js version'
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
@@ -175,12 +192,12 @@ if [ -z "$IOJS_VER" ]; then
 fi
 
 #
-# iojs  
+# iojs
 #
 if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
 # iojs of some version is already installed
-  if [ "${IOJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
-    echo iojs ${IOJS_VER} is already installed
+  if [ "${NODEJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
+    echo iojs ${NODEJS_VER} is already installed
   else
     echo ""
     echo "HEY, LISTEN:"
@@ -190,7 +207,7 @@ if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
     echo "to reinstall please first run: rm $(which iojs)"
     echo ""
   fi
-  IOJS_VER=""
+  NODEJS_VER=""
 elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
 # node of some version is already installed
   echo ""
@@ -211,8 +228,8 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
   echo ""
 fi
 
-if [ -n "${IOJS_VER}" ]; then
-  bash /tmp/install-iojs.bash "${IOJS_VER}"
+if [ -n "${NODEJS_VER}" ]; then
+  bash /tmp/install-iojs.bash "${NODEJS_VER}"
 fi
 
 echo ""
