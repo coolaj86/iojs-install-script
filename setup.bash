@@ -9,6 +9,8 @@
 # curl -fsSL https://example.com/setup.bash | bash
 # wget -nv https://example.com/setup.bash -O - | bash
 
+NODEJS_BASE_URL="https://iojs.org"
+#NODEJS_BASE_URL="https://nodejs.org"
 BASE_URL="https://raw.githubusercontent.com/coolaj86/iojs-install-script/master"
 NO_FAIL2BAN=""
 OS="unsupported"
@@ -213,10 +215,10 @@ fi
 
 if [ -z "$IOJS_VER" ]; then
   if [ -n "$(which curl)" ]; then
-    IOJS_VER="$(curl -fsSL https://iojs.org/dist/index.tab | head -2 | tail -1 | cut -f 1)" \
+    IOJS_VER="$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1)" \
       || echo 'error automatically determining current io.js version'
   elif [ -n "$(which wget)" ]; then
-    IOJS_VER="wget --quiet https://iojs.org/dist/index.tab -O - | head -2 | tail -1 | cut -f 1)" \
+    IOJS_VER="wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1)" \
       || echo 'error automatically determining current io.js version'
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
