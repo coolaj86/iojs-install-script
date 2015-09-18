@@ -40,7 +40,8 @@ if [ -n "${NODEJS_VER}" ]; then
     exit 1
   fi
 
-  tar xf ${NODEJS_LOCAL} -C /tmp/
+  mkdir -p ${NODEJS_UNTAR}
+  tar xf ${NODEJS_LOCAL} -C ${NODEJS_UNTAR} --strip-components=1
   rm ${NODEJS_UNTAR}/{LICENSE,CHANGELOG.md,README.md}
   sudo rsync -a "${NODEJS_UNTAR}/" /usr/local/
 
