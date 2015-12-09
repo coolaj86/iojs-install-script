@@ -1,6 +1,6 @@
-# Automated io.js installers for OS X and Ubuntu
+# Automated node.js installers for OS X and Ubuntu
 
-A script to install basic development tools for io.js - the new node.js - git, iojs, gcc, pkg-config, etc
+A script to install basic development tools for node.js - git, node, gcc, pkg-config, etc
 
 Pick one:
 
@@ -11,27 +11,27 @@ Pick one:
 
 ## Screencast
 
-[How to Setup a VPS for io.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) - [(3:06 installing io.js](https://www.youtube.com/watch?v=ypjzi1axH2A#t=186))
+[How to Setup a VPS for node.js Development](https://www.youtube.com/watch?v=ypjzi1axH2A) - [(3:06 installing node.js](https://www.youtube.com/watch?v=ypjzi1axH2A#t=186))
 
 ## TL;DR
 
 If you kinda know what you're doing already:
 
-**io.js + dev tools**
+**node.js + dev tools**
 
 ```bash
-echo "Current io.js version is $(curl -fsSL https://iojs.org/dist/index.tab | head -2 | tail -1 | cut -f 1)"
+echo "Current node.js version is $(curl -fsSL https://nodejs.org/dist/index.tab | head -2 | tail -1 | cut -f 1)"
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ```
 
-**io.js only** (no git, gcc, etc)
+**node.js only** (no git, gcc, etc)
 
 ```bash
 # To install a specific version rather than defaulting to latest
 # latest version at time of writing are v1.8.4, v2.5.0, and v3.1.0
 echo "v2.5.0" > /tmp/IOJS_VER
 
-# io.js without development dependencies
+# node.js without development dependencies
 curl -fsSL bit.ly/iojs-min | bash
 
 # Ubuntu without curl
@@ -56,7 +56,7 @@ You can scroll to the bottom by hitting shift+G (capital G).
 
 Type `agree` and hit enter to accept the license.
 
-Now you can install io.js (the new node.js)
+Now you can install node.js
 
 ```bash
 curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
@@ -72,8 +72,6 @@ wget -nv bit.ly/iojs-dev -O /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 
 ## Other things you should know
 
-**NOTE**: If you have node installed, this script will rename it so that it isn't overwritten by the iojs installer.
-
 This is what gets installed:
 
 * rsync
@@ -81,7 +79,7 @@ This is what gets installed:
 * wget
 * git
 * xcode / brew / build-essential / pkg-config / gcc
-* iojs (including npm and node symlink)
+* node (including npm)
 * jshint
 
 **NOTE**: If `fail2ban` is not already securing ssh, you will be asked to install it.
