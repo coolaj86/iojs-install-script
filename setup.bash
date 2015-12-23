@@ -218,12 +218,9 @@ fi
 if [ -n "$NODEJS_VER" ]; then
   NODEJS_VERT=$(echo ${NODEJS_VER} | cut -c 2- | cut -d '.' -f1)
 
-  GE1=$(echo "$NODEJS_VERT>=1" | bc)
-  LT4=$(echo "$NODEJS_VERT<4" | bc)
-
-  if [ "1" -eq $GE1  ] && [ "1" -eq $LT4 ]
+  if [ $NODEJS_VERT -ge 1 ] && [ $NODEJS_VERT -lt 4 ]
   then
-    echo "Selecting io.js instead of node.js for this version"
+    echo "Selecting io.js instead of node.js for this version (>= 1.0.0 < 4.0.0)"
     NODEJS_BASE_URL="https://iojs.org"
     NODEJS_NAME="iojs"
   fi
