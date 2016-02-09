@@ -181,7 +181,7 @@ if [ -z "$NODEJS_VER" ]; then
     NODEJS_VER="$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1)" \
       || echo 'error automatically determining current io.js version'
   elif [ -n "$(which wget)" ]; then
-    NODEJS_VER="wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1)" \
+    NODEJS_VER="$(wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1)" \
       || echo 'error automatically determining current io.js version'
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
