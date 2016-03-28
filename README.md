@@ -1,1 +1,3 @@
-Moved to <https://github.com/coolaj86/node-install-script>
+# Moved
+
+See <https://github.com/coolaj86/node-install-script>
