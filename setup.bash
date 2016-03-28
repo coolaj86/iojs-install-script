@@ -11,7 +11,7 @@
 
 NODEJS_NAME="node"
 NODEJS_BASE_URL="https://nodejs.org"
-BASE_URL="https://raw.githubusercontent.com/coolaj86/iojs-install-script/master"
+BASE_URL="https://raw.githubusercontent.com/coolaj86/node-install-script/master"
 NO_FAIL2BAN=""
 OS="unsupported"
 ARCH=""
