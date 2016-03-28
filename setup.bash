@@ -3,7 +3,7 @@
 # Installs node.js + dependencies for both Ubuntu and OS X
 
 #
-# See https://github.com/coolaj86/iojs-install-script
+# See https://github.com/coolaj86/node-install-script
 #
 
 # curl -fsSL https://example.com/setup.bash | bash
@@ -153,21 +153,25 @@ if [ ! -e "/tmp/${INSTALL_DEPS_FILE}" ]
 then
   if [ -n "$(which curl)" ]; then
     curl --silent "${BASE_URL}/${INSTALL_DEPS_FILE}" \
-      -o "/tmp/${INSTALL_DEPS_FILE}" || echo 'error downloading os setup script'
+      -o "/tmp/${INSTALL_DEPS_FILE}" || echo 'error downloading os deps script: '"${BASE_URL}/${INSTALL_DEPS_FILE}"
     curl --silent "${BASE_URL}/${INSTALL_FILE}" \
-      -o "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script'
+      -o "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script: '"${BASE_URL}/${INSTALL_FILE}"
   elif [ -n "$(which wget)" ]; then
     wget --quiet "${BASE_URL}/${INSTALL_DEPS_FILE}" \
-      -O "/tmp/${INSTALL_DEPS_FILE}" || echo 'error downloading os setup script'
+      -O "/tmp/${INSTALL_DEPS_FILE}" || echo 'error downloading os deps script: '"${BASE_URL}/${INSTALL_DEPS_FILE}"
     wget --quiet "${BASE_URL}/${INSTALL_FILE}" \
-      -O "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script'
+      -O "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script: '"${BASE_URL}/${INSTALL_FILE}"
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
     exit 1
   fi
 fi
 
-
+if [ ! -e "/tmp/${INSTALL_DEPS_FILE}" ]
+then
+  echo "Error Downloading Install File"
+  exit 1
+fi
 
 
 ################
@@ -245,39 +249,23 @@ if [ -z "$NODEJS_VER" ]; then
 fi
 
 #
-# iojs
+# node
 #
-if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
-# iojs of some version is already installed
-  if [ "${NODEJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
-    echo iojs ${NODEJS_VER} is already installed
+if [ -n "$(which node | grep node 2>/dev/null)" ]; then
+# node of some version is already installed
+  if [ "${NODEJS_VER}" == "$(node -v 2>/dev/null)" ]; then
+    echo node ${NODEJS_VER} is already installed
   else
     echo ""
     echo "HEY, LISTEN:"
     echo ""
-    echo "${NODEJS_NAME} is already installed as iojs $(iojs -v | grep v)"
+    echo "node.js is already installed as node $(node -v | grep v)"
     echo ""
-    echo "to reinstall please first run: rm $(which iojs)"
+    echo "to reinstall please first run: rm $(which node)"
     echo ""
   fi
+
   NODEJS_VER=""
-elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
-# node of some version is already installed
-  echo ""
-  echo "HEY, LISTEN!"
-  echo ""
-  echo "You have node.js installed."
-  echo "Backing up $(which node) as $(which node).$(node -v)"
-  echo ""
-  sleep 3
-  NODE_PATH=$(which node)
-  NODE_VER=$(node -v)
-  echo sudo mv "$NODE_PATH" "$NODE_PATH.$NODE_VER"
-  sudo mv "$NODE_PATH" "$NODE_PATH.$NODE_VER"
-  echo "################################################################################"
-  echo "to restore backup: sudo rsync -a '"$NODE_PATH.$NODE_VER"' '$NODE_PATH'"
-  echo "################################################################################"
-  echo ""
 fi
 
 if [ -n "${NODEJS_VER}" ]; then

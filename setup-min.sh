@@ -14,7 +14,7 @@
 
 NODEJS_NAME="node"
 NODEJS_BASE_URL="https://nodejs.org"
-BASE_URL="https://raw.githubusercontent.com/coolaj86/node-install-script/master"
+BASE_URL="https://raw.githubusercontent.com/coolaj86/iojs-install-script/master"
 OS="unsupported"
 ARCH=""
 NODEJS_VER=""
@@ -200,40 +200,23 @@ if [ -z "$NODEJS_VER" ]; then
 fi
 
 #
-# iojs
+# node
 #
-if [ -n "$(which iojs | grep iojs 2>/dev/null)" ]; then
-# iojs of some version is already installed
-  if [ "${NODEJS_VER}" == "$(iojs -v 2>/dev/null)" ]; then
-    echo iojs ${NODEJS_VER} is already installed
+if [ -n "$(which node | grep node 2>/dev/null)" ]; then
+# node of some version is already installed
+  if [ "${NODEJS_VER}" == "$(node -v 2>/dev/null)" ]; then
+    echo node ${NODEJS_VER} is already installed
   else
     echo ""
     echo "HEY, LISTEN:"
     echo ""
-    echo "io.js is already installed as iojs $(iojs -v | grep v)"
+    echo "node.js is already installed as node $(node -v | grep v)"
     echo ""
-    echo "to reinstall please first run: rm $(which iojs)"
+    echo "to reinstall please first run: rm $(which node)"
     echo ""
   fi
+
   NODEJS_VER=""
-elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
-# node of some version is already installed
-  echo ""
-  echo "HEY, LISTEN!"
-  echo ""
-  echo "You have node.js installed."
-  echo "Backing up $(which node) as $(which node).$(node -v)"
-  echo "(copy it back after the install to maintain node.js and io.js separately)"
-  echo ""
-  sleep 3
-  NODE_PATH=$(which node)
-  NODE_VER=$(node -v)
-  echo sudo mv "$NODE_PATH" "$NODE_PATH.$NODE_VER"
-  sudo mv "$NODE_PATH" "$NODE_PATH.$NODE_VER"
-  echo "################################################################################"
-  echo "to restore backup: sudo rsync -a '"$NODE_PATH.$NODE_VER"' '$NODE_PATH'"
-  echo "################################################################################"
-  echo ""
 fi
 
 if [ -n "${NODEJS_VER}" ]; then
