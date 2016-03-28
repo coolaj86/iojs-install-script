@@ -1,20 +1,20 @@
 #!/bin/bash
 
-# Installs iojs only (no development dependencies) for both Ubuntu and OS X
+# Installs node.js only (no development dependencies) for both Ubuntu and OS X
 
 #
-# See https://github.com/coolaj86/iojs-install-script
+# See https://github.com/coolaj86/node-install-script
 #
 
-# curl -fsSL bit.ly/iojs-min | bash
-# wget -nv bit.ly/iojs-min -O - | bash
+# curl -fsSL bit.ly/nodejs-min | bash
+# wget -nv bit.ly/nodejs-min -O - | bash
 
 # curl -fsSL https://example.com/setup-min.bash | bash
 # wget -nv https://example.com/setup-min.bash -O - | bash
 
 NODEJS_NAME="node"
 NODEJS_BASE_URL="https://nodejs.org"
-BASE_URL="https://raw.githubusercontent.com/coolaj86/iojs-install-script/master"
+BASE_URL="https://raw.githubusercontent.com/coolaj86/node-install-script/master"
 OS="unsupported"
 ARCH=""
 NODEJS_VER=""
@@ -144,14 +144,24 @@ esac
 
 echo "Preparing to install io.js (and common development dependencies) for ${OS}" "${ARCH}"
 
-if [ -n "$(which curl)" ]; then
-  curl --silent "${BASE_URL}/setup-iojs-${SETUP_FILE}.bash" \
-    -o /tmp/install-iojs.bash || echo 'error downloading os setup script'
-elif [ -n "$(which wget)" ]; then
-  wget --quiet "${BASE_URL}/setup-iojs-${SETUP_FILE}.bash" \
-    -O /tmp/install-iojs.bash || echo 'error downloading os setup script'
-else
-  echo "Found neither 'curl' nor 'wget'. Can't Continue."
+INSTALL_FILE="setup-node-${SETUP_FILE}.bash"
+if [ ! -e "/tmp/${INSTALL_FILE}" ]
+then
+  if [ -n "$(which curl)" ]; then
+    curl --silent "${BASE_URL}/${INSTALL_FILE}" \
+      -o "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script'
+  elif [ -n "$(which wget)" ]; then
+    wget --quiet "${BASE_URL}/${INSTALL_FILE}" \
+      -O "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script'
+  else
+    echo "Found neither 'curl' nor 'wget'. Can't Continue."
+    exit 1
+  fi
+fi
+
+if [ ! -e "/tmp/${INSTALL_FILE}" ]
+then
+  echo "Error Downloading Install File"
   exit 1
 fi
 
@@ -178,10 +188,10 @@ fi
 
 if [ -z "$NODEJS_VER" ]; then
   if [ -n "$(which curl)" ]; then
-    NODEJS_VER="$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1)" \
+    NODEJS_VER=$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1) \
       || echo 'error automatically determining current io.js version'
   elif [ -n "$(which wget)" ]; then
-    NODEJS_VER="$(wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1)" \
+    NODEJS_VER=$(wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1) \
       || echo 'error automatically determining current io.js version'
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
@@ -227,7 +237,7 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
 fi
 
 if [ -n "${NODEJS_VER}" ]; then
-  bash /tmp/install-iojs.bash "${NODEJS_VER}"
+  bash "/tmp/${INSTALL_FILE}" "${NODEJS_VER}"
 fi
 
 echo ""

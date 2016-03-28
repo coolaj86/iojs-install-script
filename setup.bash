@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Installs iojs + dependencies for both Ubuntu and OS X
+# Installs node.js + dependencies for both Ubuntu and OS X
 
 #
 # See https://github.com/coolaj86/iojs-install-script
@@ -147,19 +147,24 @@ esac
 
 echo "Preparing to install ${NODEJS_NAME} (and common development dependencies) for ${OS}" "${ARCH}"
 
-if [ -n "$(which curl)" ]; then
-  curl --silent "${BASE_URL}/setup-deps-${SETUP_FILE}.bash" \
-    -o /tmp/install-${NODEJS_NAME}-deps.bash || echo 'error downloading os setup script'
-  curl --silent "${BASE_URL}/setup-iojs-${SETUP_FILE}.bash" \
-    -o /tmp/install-${NODEJS_NAME}.bash || echo 'error downloading os setup script'
-elif [ -n "$(which wget)" ]; then
-  wget --quiet "${BASE_URL}/setup-deps-${SETUP_FILE}.bash" \
-    -O /tmp/install-${NODEJS_NAME}-deps.bash || echo 'error downloading os setup script'
-  wget --quiet "${BASE_URL}/setup-iojs-${SETUP_FILE}.bash" \
-    -O /tmp/install-${NODEJS_NAME}.bash || echo 'error downloading os setup script'
-else
-  echo "Found neither 'curl' nor 'wget'. Can't Continue."
-  exit 1
+INSTALL_DEPS_FILE="setup-deps-${SETUP_FILE}.bash"
+INSTALL_FILE="setup-node-${SETUP_FILE}.bash"
+if [ ! -e "/tmp/${INSTALL_DEPS_FILE}" ]
+then
+  if [ -n "$(which curl)" ]; then
+    curl --silent "${BASE_URL}/${INSTALL_DEPS_FILE}" \
+      -o "/tmp/${INSTALL_DEPS_FILE}" || echo 'error downloading os setup script'
+    curl --silent "${BASE_URL}/${INSTALL_FILE}" \
+      -o "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script'
+  elif [ -n "$(which wget)" ]; then
+    wget --quiet "${BASE_URL}/${INSTALL_DEPS_FILE}" \
+      -O "/tmp/${INSTALL_DEPS_FILE}" || echo 'error downloading os setup script'
+    wget --quiet "${BASE_URL}/${INSTALL_FILE}" \
+      -O "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script'
+  else
+    echo "Found neither 'curl' nor 'wget'. Can't Continue."
+    exit 1
+  fi
 fi
 
 
@@ -203,7 +208,7 @@ if [ -z "$(which fail2ban-server | grep fail2ban)" ]; then
   fi
 fi
 
-bash /tmp/install-${NODEJS_NAME}-deps.bash "${NO_FAIL2BAN}"
+bash "/tmp/${INSTALL_DEPS_FILE}" "${NO_FAIL2BAN}"
 
 #########################
 # Which node.js VERSION ? #
@@ -228,11 +233,11 @@ fi
 
 if [ -z "$NODEJS_VER" ]; then
   if [ -n "$(which curl)" ]; then
-    NODEJS_VER="$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1)" \
-      || echo 'error automatically determining current ${NODEJS_NAME} version'
+    NODEJS_VER=$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1) \
+      || echo "error automatically determining current ${NODEJS_NAME} version"
   elif [ -n "$(which wget)" ]; then
-    NODEJS_VER="wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1)" \
-      || echo 'error automatically determining current ${NODEJS_NAME} version'
+    NODEJS_VER=$(wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1) \
+      || echo "error automatically determining current ${NODEJS_NAME} version"
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
     exit 1
@@ -276,7 +281,7 @@ elif [ "$(node -v 2>/dev/null)" != "$(iojs -v 2>/dev/null)" ]; then
 fi
 
 if [ -n "${NODEJS_VER}" ]; then
-  bash /tmp/install-${NODEJS_NAME}.bash "${NODEJS_VER}"
+  bash "/tmp/${INSTALL_FILE}" "${NODEJS_VER}"
 fi
 
 # jshint
