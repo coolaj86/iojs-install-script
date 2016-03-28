@@ -1,26 +1,26 @@
 #!/bin/bash
 
-# Installs node.js + dependencies for both Ubuntu and OS X
+# Installs node.js only (no development dependencies) for both Ubuntu and OS X
 
 #
 # See https://github.com/coolaj86/node-install-script
 #
 
-# curl -fsSL https://example.com/setup.bash | bash
-# wget -nv https://example.com/setup.bash -O - | bash
+# curl -fsSL bit.ly/nodejs-min | bash
+# wget -nv bit.ly/nodejs-min -O - | bash
+
+# curl -fsSL https://example.com/setup-min.bash | bash
+# wget -nv https://example.com/setup-min.bash -O - | bash
 
 NODEJS_NAME="node"
 NODEJS_BASE_URL="https://nodejs.org"
 BASE_URL="https://raw.githubusercontent.com/coolaj86/iojs-install-script/master"
-NO_FAIL2BAN=""
 OS="unsupported"
 ARCH=""
 NODEJS_VER=""
 SETUP_FILE=""
 
 clear
-
-
 
 #########################
 # Which OS and version? #
@@ -138,84 +138,35 @@ case "${OS}" in
     ;;
 esac
 
-
-
-
 #######################
 # Download installers #
 #######################
 
-echo "Preparing to install ${NODEJS_NAME} (and common development dependencies) for ${OS}" "${ARCH}"
+echo "Preparing to install io.js (and common development dependencies) for ${OS}" "${ARCH}"
 
-INSTALL_DEPS_FILE="setup-deps-${SETUP_FILE}.bash"
 INSTALL_FILE="setup-node-${SETUP_FILE}.bash"
-if [ ! -e "/tmp/${INSTALL_DEPS_FILE}" ]
+if [ ! -e "/tmp/${INSTALL_FILE}" ]
 then
   if [ -n "$(which curl)" ]; then
-    curl --silent "${BASE_URL}/${INSTALL_DEPS_FILE}" \
-      -o "/tmp/${INSTALL_DEPS_FILE}" || echo 'error downloading os deps script: '"${BASE_URL}/${INSTALL_DEPS_FILE}"
     curl --silent "${BASE_URL}/${INSTALL_FILE}" \
-      -o "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script: '"${BASE_URL}/${INSTALL_FILE}"
+      -o "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script'
   elif [ -n "$(which wget)" ]; then
-    wget --quiet "${BASE_URL}/${INSTALL_DEPS_FILE}" \
-      -O "/tmp/${INSTALL_DEPS_FILE}" || echo 'error downloading os deps script: '"${BASE_URL}/${INSTALL_DEPS_FILE}"
     wget --quiet "${BASE_URL}/${INSTALL_FILE}" \
-      -O "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script: '"${BASE_URL}/${INSTALL_FILE}"
+      -O "/tmp/${INSTALL_FILE}" || echo 'error downloading os setup script'
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
     exit 1
   fi
 fi
 
-if [ ! -e "/tmp/${INSTALL_DEPS_FILE}" ]
+if [ ! -e "/tmp/${INSTALL_FILE}" ]
 then
   echo "Error Downloading Install File"
   exit 1
 fi
 
-
-################
-# DEPENDENCIES #
-################
-
-if [ -z "$(which fail2ban-server | grep fail2ban)" ]; then
-  echo ""
-  echo "Your server didn't come with fail2ban preinstalled!!!"
-  echo "Among other things, fail2ban secures ssh so that your server isn't reaped by botnets."
-  echo ""
-  echo "Since you're obviosly connecting this computer to a network, you should install fail2ban before continuing"
-  echo ""
-  echo "Install fail2ban? [Y/n]"
-  echo "(if unsure, just hit [enter])"
-  read INSTALL_FAIL2BAN
-
-  if [ "n" == "${INSTALL_FAIL2BAN}" ] || [ "no" == "${INSTALL_FAIL2BAN}" ] || [ "N" == "${INSTALL_FAIL2BAN}" ] || [ "NO" == "${INSTALL_FAIL2BAN}" ]; then
-    echo ""
-    echo "I don't think you understand: This is important."
-    echo ""
-    echo "Your server will be under constant attack by botnets via ssh."
-    echo "It only takes a few extra seconds to install and the defaults are adequate for protecting you."
-    echo ""
-    echo "Change your mind?"
-    echo "Ready to install fail2ban? [Y/n]"
-    read INSTALL_FAIL2BAN
-    if [ "n" == "${INSTALL_FAIL2BAN}" ] || [ "no" == "${INSTALL_FAIL2BAN}" ] || [ "N" == "${INSTALL_FAIL2BAN}" ] || [ "NO" == "${INSTALL_FAIL2BAN}" ]; then
-      clear
-      echo "you make me sad :-("
-      sleep 0.5
-      echo "but whatever, it's your funeral..."
-      sleep 1
-      NO_FAIL2BAN="nope"
-    else
-      echo "Phew, dodged the bullet on that one... Will install fail2ban.. :-)"
-    fi
-  fi
-fi
-
-bash "/tmp/${INSTALL_DEPS_FILE}" "${NO_FAIL2BAN}"
-
 #########################
-# Which node.js VERSION ? #
+# Which io.js VERSION ? #
 #########################
 
 if [ -f "/tmp/NODEJS_VER" ]; then
@@ -238,10 +189,10 @@ fi
 if [ -z "$NODEJS_VER" ]; then
   if [ -n "$(which curl)" ]; then
     NODEJS_VER=$(curl -fsSL "$NODEJS_BASE_URL/dist/index.tab" | head -2 | tail -1 | cut -f 1) \
-      || echo "error automatically determining current ${NODEJS_NAME} version"
+      || echo 'error automatically determining current io.js version'
   elif [ -n "$(which wget)" ]; then
     NODEJS_VER=$(wget --quiet "$NODEJS_BASE_URL/dist/index.tab" -O - | head -2 | tail -1 | cut -f 1) \
-      || echo "error automatically determining current ${NODEJS_NAME} version"
+      || echo 'error automatically determining current io.js version'
   else
     echo "Found neither 'curl' nor 'wget'. Can't Continue."
     exit 1
@@ -270,12 +221,6 @@ fi
 
 if [ -n "${NODEJS_VER}" ]; then
   bash "/tmp/${INSTALL_FILE}" "${NODEJS_VER}"
-fi
-
-# jshint
-if [ -z "$(which jshint | grep jshint)" ]; then
-  echo "installing jshint..."
-  npm install --silent jshint -g > /dev/null
 fi
 
 echo ""

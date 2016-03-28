@@ -1,9 +1,18 @@
 #!/bin/bash
 
 # curl -fsSL https://ldsconnect.org/setup-osx.bash | bash -c
-NODE_VER=${1}
+NO_FAIL2BAN=${1}
 
 echo ""
+echo ""
+echo "Checking for"
+echo ""
+echo "    * XCode Command Line Tools"
+echo "    * wget"
+echo "    * pkg-config"
+echo "    * node"
+echo "    * iojs"
+echo "    * jshint"
 echo ""
 
 # XCode
@@ -31,8 +40,6 @@ if [ -z "$(xcode-select --print-path 2>/dev/null)" ] || [ -z "$(git --version 2>
   echo "It looks like the other install is finishing up."
   echo "This installation will begin in one minute."
   sleep 60
-else
-  echo "XCode Command Line Tools already installed"
 fi
 
 # homebrew
@@ -48,46 +55,18 @@ fi
 if [ -z "$(which wget | grep wget)" ]; then
   echo "installing wget..."
   brew install wget
-else
-  echo "wget already installed"
 fi
 
 # http://www.fail2ban.org/wiki/index.php/HOWTO_Mac_OS_X_Server_(10.5)
 if [ -z "$(which fail2ban-server | grep fail2ban)" ]; then
-  echo "installing fail2ban..."
-  brew install fail2ban
-  sudo cp -fv /usr/local/opt/fail2ban/*.plist /Library/LaunchDaemons
-  sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.fail2ban.plist
-else
-  echo "fail2ban already installed"
+  if [ -z "${NO_FAIL2BAN}" ]; then
+    brew install fail2ban
+    sudo cp -fv /usr/local/opt/fail2ban/*.plist /Library/LaunchDaemons
+    sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.fail2ban.plist
+  fi
 fi
 
 if [ -z "$(which pkg-config | grep pkg-config)" ]; then
   echo "installing pkg-config..."
   brew install pkg-config
-else
-  echo "pkg-config already installed"
-fi
-
-# node
-if [ -n "$(which node | grep node 2>/dev/null)" ]; then
-  NODE_VER=""
-  
-  if [ "${NODE_VER}" == "$(node -v 2>/dev/null)" ]; then
-    echo node ${NODE_VER} already installed
-  else
-    echo ""
-    echo "HEY, LISTEN:"
-    echo "node is already installed as $(node -v | grep v)"
-    echo ""
-    echo "to reinstall please first run: rm $(which node)"
-    echo ""
-  fi
-fi
-
-if [ -n "${NODE_VER}" ]; then
-  echo "installing node ${NODE_VER}..."
-  curl -fsSL "http://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}.pkg" -o "/tmp/node-${NODE_VER}.pkg"
-  sudo /usr/sbin/installer -pkg "/tmp/node-${NODE_VER}.pkg" -target /
-  sudo chown -R $(whoami) /usr/local 2>/dev/null
 fi
