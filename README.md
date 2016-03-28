@@ -21,8 +21,11 @@ If you kinda know what you're doing already:
 
 ```bash
 echo "Current node.js version is $(curl -fsSL https://nodejs.org/dist/index.tab | head -2 | tail -1 | cut -f 1)"
-curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
+
+curl -fsSL bit.ly/install-nodejs-dev -o /tmp/node-dev.sh; bash /tmp/node-dev.sh
 ```
+
+<!-- bit.ly/easy-install-node -->
 
 **node.js only** (no git, gcc, etc)
 
@@ -32,10 +35,10 @@ curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 echo "v2.5.0" > /tmp/IOJS_VER
 
 # node.js without development dependencies
-curl -fsSL bit.ly/iojs-min | bash
+curl -fsSL bit.ly/nodejs-min | bash
 
 # Ubuntu without curl
-wget -nv bit.ly/iojs-min -O - | bash
+wget -nv bit.ly/nodejs-min -O - | bash
 ```
 
 ## Apple OS X
@@ -59,7 +62,7 @@ Type `agree` and hit enter to accept the license.
 Now you can install node.js
 
 ```bash
-curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
+curl -fsSL bit.ly/install-nodejs-dev -o /tmp/node-dev.sh; bash /tmp/node-dev.sh
 ```
 
 *TODO*: Make it easier to accepting the license (automatic?)
@@ -67,7 +70,7 @@ curl -fsSL bit.ly/iojs-dev -o /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
 ## Ubuntu Linux
 
 ```bash
-wget -nv bit.ly/iojs-dev -O /tmp/iojs-dev.sh; bash /tmp/iojs-dev.sh
+wget -nv bit.ly/install-nodejs-dev -O /tmp/node-dev.sh; bash /tmp/node-dev.sh
 ```
 
 ## Other things you should know
